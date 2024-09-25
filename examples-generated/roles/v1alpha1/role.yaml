@@ -1,0 +1,11 @@
+apiVersion: roles.neo4j.headyj.io/v1alpha1
+kind: Role
+metadata:
+  annotations:
+    meta.upbound.io/example-id: roles/v1alpha1/role
+  labels:
+    testing.upbound.io/example-name: my_role
+  name: my-role
+spec:
+  forProvider:
+    name: myRole

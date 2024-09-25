@@ -1,0 +1,29 @@
+apiVersion: databases.neo4j.headyj.io/v1alpha1
+kind: Database
+metadata:
+  name: jnitest
+spec:
+  forProvider:
+    name: jnitest
+  providerConfigRef:
+    name: default
+---
+apiVersion: databases.neo4j.headyj.io/v1alpha1
+kind: Database
+metadata:
+  name: jnitest2
+spec:
+  forProvider:
+    name: jnitest2
+  providerConfigRef:
+    name: default
+---
+apiVersion: databases.neo4j.headyj.io/v1alpha1
+kind: Database
+metadata:
+  name: jnitest3
+spec:
+  forProvider:
+    name: jnitest3
+  providerConfigRef:
+    name: default

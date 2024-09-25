@@ -10,12 +10,15 @@ import (
 
 	ujconfig "github.com/crossplane/upjet/pkg/config"
 
-	"github.com/upbound/upjet-provider-template/config/null"
+	"github.com/headyj/provider-neo4j/config/database"
+	"github.com/headyj/provider-neo4j/config/grant"
+	"github.com/headyj/provider-neo4j/config/role"
+	"github.com/headyj/provider-neo4j/config/user"
 )
 
 const (
-	resourcePrefix = "template"
-	modulePath     = "github.com/upbound/upjet-provider-template"
+	resourcePrefix = "neo4j"
+	modulePath     = "github.com/headyj/provider-neo4j"
 )
 
 //go:embed schema.json
@@ -27,7 +30,7 @@ var providerMetadata string
 // GetProvider returns provider configuration
 func GetProvider() *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
-		ujconfig.WithRootGroup("template.upbound.io"),
+		ujconfig.WithRootGroup("neo4j.headyj.io"),
 		ujconfig.WithIncludeList(ExternalNameConfigured()),
 		ujconfig.WithFeaturesPackage("internal/features"),
 		ujconfig.WithDefaultResourceOptions(
@@ -36,7 +39,10 @@ func GetProvider() *ujconfig.Provider {
 
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
-		null.Configure,
+		database.Configure,
+		user.Configure,
+		role.Configure,
+		grant.Configure,
 	} {
 		configure(pc)
 	}

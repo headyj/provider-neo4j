@@ -1,0 +1,24 @@
+apiVersion: users.neo4j.headyj.io/v1alpha1
+kind: User
+metadata:
+  name: jni
+spec:
+  forProvider:
+    name: jni
+    passwordSecretRef:
+      namespace: crossplane-system
+      name: jni-password
+      key: password
+    roles:
+      - jni
+  providerConfigRef:
+    name: default
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: jni-password
+  namespace: crossplane-system
+type: Opaque
+stringData:
+  password: password1

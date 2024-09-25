@@ -1,0 +1,31 @@
+apiVersion: users.neo4j.headyj.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: users/v1alpha1/user
+  labels:
+    testing.upbound.io/example-name: my_user
+  name: my-user
+spec:
+  forProvider:
+    name: myUser
+    passwordSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: upbound-system
+    roles:
+    - ${neo4j_role.my_role.name}
+
+---
+
+apiVersion: roles.neo4j.headyj.io/v1alpha1
+kind: Role
+metadata:
+  annotations:
+    meta.upbound.io/example-id: users/v1alpha1/user
+  labels:
+    testing.upbound.io/example-name: my_role
+  name: my-role
+spec:
+  forProvider:
+    name: myRole

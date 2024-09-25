@@ -1,40 +1,83 @@
-name: hashicorp/null
+name: headyj/neo4j
 resources:
-    null_resource:
+    neo4j_database:
         subCategory: ""
-        description: The null_resource resource implements the standard resource lifecycle but takes no further action. On Terraform 1.4 and later, use the terraform_data resource type https://developer.hashicorp.com/terraform/language/resources/terraform-data instead. The triggers argument allows specifying an arbitrary set of values that, when changed, will cause the resource to be replaced.
-        name: null_resource
-        title: null_resource Resource - terraform-provider-null
+        description: Neo4j database
+        name: neo4j_database
+        title: neo4j_database
         examples:
-            - name: cluster
+            - name: my_database
               manifest: |-
                 {
-                  "connection": [
-                    {
-                      "host": "${element(aws_instance.cluster[*].public_ip, 0)}"
-                    }
-                  ],
-                  "provisioner": {
-                    "remote-exec": [
-                      {
-                        "inline": [
-                          "bootstrap-cluster.sh ${join(\" \",\n      aws_instance.cluster[*].private_ip)}"
-                        ]
-                      }
-                    ]
-                  },
-                  "triggers": {
-                    "cluster_instance_ids": "${join(\",\", aws_instance.cluster[*].id)}"
-                  }
+                  "name": "mydatabase"
                 }
+        argumentDocs:
+            name: '- (Required) The name of the database. Only lowercase are accepted by Neo4j'
+        importStatements: []
+    neo4j_grant:
+        subCategory: ""
+        description: Neo4j grant
+        name: neo4j_grant
+        title: neo4j_grant
+        examples:
+            - name: my_grant
+              manifest: |-
+                {
+                  "action": "match",
+                  "graph": "neo4j",
+                  "resource": "all_properties",
+                  "role": "${neo4j_role.my_role.name}"
+                }
+              references:
+                role: neo4j_role.my_role.name
               dependencies:
-                aws_instance.cluster: |-
+                neo4j_role.my_role: |-
                     {
-                      "ami": "ami-0dcc1e21636832c5d",
-                      "count": 3,
-                      "instance_type": "m5.large"
+                      "name": "myRole"
                     }
         argumentDocs:
-            id: (String) This is set to a random value at create time.
-            triggers: (Map of String) A map of arbitrary strings that, when changed, will force the null resource to be replaced, re-running any associated provisioners.
+            action: '- (Required) The privilege name of the grant. It can be both related to databases or graphs. See available actions below for valid values. Please read the offical documentation for more information.'
+            graph: '- (Required) The name of the database or graph associated with the grant. it can be "*" or the specific database or graph name.'
+            resource: '- (Optional) The resource associated with the grant. Valid values are (depending on the type of action) all_labels, all_properties,graph,database,label(<value>),property(<value>).'
+            role: '- (Required) The role associated with the grant.'
+            segment: '- (Optional) In the case of graph related grant, you can specify the segment of the grant. Valid values are NODE(*), RELATIONSHIP(*), NODE(<value>), RELATIONSHIP(<value>).'
+        importStatements: []
+    neo4j_role:
+        subCategory: ""
+        description: Neo4j role
+        name: neo4j_role
+        title: neo4j_role
+        examples:
+            - name: my_role
+              manifest: |-
+                {
+                  "name": "myRole"
+                }
+        argumentDocs:
+            name: '- (Required) The name of the role.'
+        importStatements: []
+    neo4j_user:
+        subCategory: ""
+        description: Neo4j user
+        name: neo4j_user
+        title: neo4j_user
+        examples:
+            - name: my_user
+              manifest: |-
+                {
+                  "name": "myUser",
+                  "password": "password",
+                  "roles": [
+                    "${neo4j_role.my_role.name}"
+                  ]
+                }
+              dependencies:
+                neo4j_role.my_role: |-
+                    {
+                      "name": "myRole"
+                    }
+        argumentDocs:
+            name: '- (Required) The name of the user.'
+            password: '- (Required) The password of the user.'
+            roles: '- (Optional) The list of user roles associated.'
         importStatements: []
