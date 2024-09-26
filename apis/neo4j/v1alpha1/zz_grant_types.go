@@ -25,7 +25,16 @@ type GrantInitParameters struct {
 	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
 
 	// The role associated with the grant.
+	// +crossplane:generate:reference:type=github.com/headyj/provider-neo4j/apis/neo4j/v1alpha1.Role
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+
+	// Reference to a Role in neo4j to populate role.
+	// +kubebuilder:validation:Optional
+	RoleRef *v1.Reference `json:"roleRef,omitempty" tf:"-"`
+
+	// Selector for a Role in neo4j to populate role.
+	// +kubebuilder:validation:Optional
+	RoleSelector *v1.Selector `json:"roleSelector,omitempty" tf:"-"`
 
 	// In the case of graph related grant, you can specify the segment of the grant. Valid values are NODE(*), RELATIONSHIP(*), NODE(<value>), RELATIONSHIP(<value>).
 	Segment *string `json:"segment,omitempty" tf:"segment,omitempty"`
@@ -66,8 +75,17 @@ type GrantParameters struct {
 	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
 
 	// The role associated with the grant.
+	// +crossplane:generate:reference:type=github.com/headyj/provider-neo4j/apis/neo4j/v1alpha1.Role
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+
+	// Reference to a Role in neo4j to populate role.
+	// +kubebuilder:validation:Optional
+	RoleRef *v1.Reference `json:"roleRef,omitempty" tf:"-"`
+
+	// Selector for a Role in neo4j to populate role.
+	// +kubebuilder:validation:Optional
+	RoleSelector *v1.Selector `json:"roleSelector,omitempty" tf:"-"`
 
 	// In the case of graph related grant, you can specify the segment of the grant. Valid values are NODE(*), RELATIONSHIP(*), NODE(<value>), RELATIONSHIP(<value>).
 	// +kubebuilder:validation:Optional
@@ -112,7 +130,6 @@ type Grant struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.action) || (has(self.initProvider) && has(self.initProvider.action))",message="spec.forProvider.action is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.graph) || (has(self.initProvider) && has(self.initProvider.graph))",message="spec.forProvider.graph is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.role) || (has(self.initProvider) && has(self.initProvider.role))",message="spec.forProvider.role is a required parameter"
 	Spec   GrantSpec   `json:"spec"`
 	Status GrantStatus `json:"status,omitempty"`
 }

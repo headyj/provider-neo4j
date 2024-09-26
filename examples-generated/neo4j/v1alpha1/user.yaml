@@ -13,8 +13,8 @@ spec:
       key: example-key
       name: example-secret
       namespace: upbound-system
-    roles:
-    - ${neo4j_role.my_role.name}
+    roleRefs:
+    - name: my_role
 
 ---
 

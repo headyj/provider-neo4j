@@ -9,6 +9,7 @@
 package v1alpha1
 
 import (
+	"github.com/crossplane/crossplane-runtime/apis/common/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -221,6 +222,16 @@ func (in *GrantInitParameters) DeepCopyInto(out *GrantInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.RoleRef != nil {
+		in, out := &in.RoleRef, &out.RoleRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.RoleSelector != nil {
+		in, out := &in.RoleSelector, &out.RoleSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Segment != nil {
 		in, out := &in.Segment, &out.Segment
 		*out = new(string)
@@ -337,6 +348,16 @@ func (in *GrantParameters) DeepCopyInto(out *GrantParameters) {
 		in, out := &in.Role, &out.Role
 		*out = new(string)
 		**out = **in
+	}
+	if in.RoleRef != nil {
+		in, out := &in.RoleRef, &out.RoleRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.RoleSelector != nil {
+		in, out := &in.RoleSelector, &out.RoleSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Segment != nil {
 		in, out := &in.Segment, &out.Segment
@@ -590,6 +611,18 @@ func (in *UserInitParameters) DeepCopyInto(out *UserInitParameters) {
 		**out = **in
 	}
 	out.PasswordSecretRef = in.PasswordSecretRef
+	if in.RoleRefs != nil {
+		in, out := &in.RoleRefs, &out.RoleRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.RoleRefsSelector != nil {
+		in, out := &in.RoleRefsSelector, &out.RoleRefsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Roles != nil {
 		in, out := &in.Roles, &out.Roles
 		*out = make([]*string, len(*in))
@@ -700,6 +733,18 @@ func (in *UserParameters) DeepCopyInto(out *UserParameters) {
 		**out = **in
 	}
 	out.PasswordSecretRef = in.PasswordSecretRef
+	if in.RoleRefs != nil {
+		in, out := &in.RoleRefs, &out.RoleRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.RoleRefsSelector != nil {
+		in, out := &in.RoleRefsSelector, &out.RoleRefsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Roles != nil {
 		in, out := &in.Roles, &out.Roles
 		*out = make([]*string, len(*in))

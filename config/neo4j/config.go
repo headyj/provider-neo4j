@@ -13,11 +13,15 @@ func Configure(p *config.Provider) {
 		// this resource, which would be "github"
 	})
 	p.AddResourceConfigurator("neo4j_user", func(r *config.Resource) {
-		// We need to override the default group that upjet generated for
-		// this resource, which would be "github"
+		r.References["roles"] = config.Reference{
+			TerraformName: "neo4j_role",
+			RefFieldName:      "RoleRefs",
+			SelectorFieldName: "RoleRefsSelector",
+		}
 	})
 	p.AddResourceConfigurator("neo4j_grant", func(r *config.Resource) {
-		// We need to override the default group that upjet generated for
-		// this resource, which would be "github"
+		r.References["role"] = config.Reference{
+			TerraformName: "neo4j_role",
+		}
 	})
 }

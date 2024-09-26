@@ -11,7 +11,9 @@ spec:
     action: match
     graph: neo4j
     resource: all_properties
-    role: myRole
+    roleSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_role
 
 ---
 

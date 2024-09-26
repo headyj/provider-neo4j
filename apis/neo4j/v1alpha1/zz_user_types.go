@@ -22,7 +22,18 @@ type UserInitParameters struct {
 	// The password of the user.
 	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
 
+	// References to Role in neo4j to populate roles.
+	// +kubebuilder:validation:Optional
+	RoleRefs []v1.Reference `json:"roleRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Role in neo4j to populate roles.
+	// +kubebuilder:validation:Optional
+	RoleRefsSelector *v1.Selector `json:"roleRefsSelector,omitempty" tf:"-"`
+
 	// The list of user roles associated.
+	// +crossplane:generate:reference:type=github.com/headyj/provider-neo4j/apis/neo4j/v1alpha1.Role
+	// +crossplane:generate:reference:refFieldName=RoleRefs
+	// +crossplane:generate:reference:selectorFieldName=RoleRefsSelector
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 }
@@ -53,7 +64,18 @@ type UserParameters struct {
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
 
+	// References to Role in neo4j to populate roles.
+	// +kubebuilder:validation:Optional
+	RoleRefs []v1.Reference `json:"roleRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Role in neo4j to populate roles.
+	// +kubebuilder:validation:Optional
+	RoleRefsSelector *v1.Selector `json:"roleRefsSelector,omitempty" tf:"-"`
+
 	// The list of user roles associated.
+	// +crossplane:generate:reference:type=github.com/headyj/provider-neo4j/apis/neo4j/v1alpha1.Role
+	// +crossplane:generate:reference:refFieldName=RoleRefs
+	// +crossplane:generate:reference:selectorFieldName=RoleRefsSelector
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
