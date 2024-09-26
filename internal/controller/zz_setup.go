@@ -9,11 +9,11 @@ import (
 
 	"github.com/crossplane/upjet/pkg/controller"
 
-	database "github.com/headyj/provider-neo4j/internal/controller/databases/database"
-	grant "github.com/headyj/provider-neo4j/internal/controller/grants/grant"
+	database "github.com/headyj/provider-neo4j/internal/controller/neo4j/database"
+	grant "github.com/headyj/provider-neo4j/internal/controller/neo4j/grant"
+	role "github.com/headyj/provider-neo4j/internal/controller/neo4j/role"
+	user "github.com/headyj/provider-neo4j/internal/controller/neo4j/user"
 	providerconfig "github.com/headyj/provider-neo4j/internal/controller/providerconfig"
-	role "github.com/headyj/provider-neo4j/internal/controller/roles/role"
-	user "github.com/headyj/provider-neo4j/internal/controller/users/user"
 )
 
 // Setup creates all controllers with the supplied logger and adds them to
@@ -22,9 +22,9 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		database.Setup,
 		grant.Setup,
-		providerconfig.Setup,
 		role.Setup,
 		user.Setup,
+		providerconfig.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

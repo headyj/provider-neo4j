@@ -10,10 +10,7 @@ import (
 
 	ujconfig "github.com/crossplane/upjet/pkg/config"
 
-	"github.com/headyj/provider-neo4j/config/database"
-	"github.com/headyj/provider-neo4j/config/grant"
-	"github.com/headyj/provider-neo4j/config/role"
-	"github.com/headyj/provider-neo4j/config/user"
+	"github.com/headyj/provider-neo4j/config/neo4j"
 )
 
 const (
@@ -39,10 +36,7 @@ func GetProvider() *ujconfig.Provider {
 
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
-		database.Configure,
-		user.Configure,
-		role.Configure,
-		grant.Configure,
+		neo4j.Configure,
 	} {
 		configure(pc)
 	}
