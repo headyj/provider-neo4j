@@ -4,9 +4,9 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.14.0
-  name: providerconfigs.neo4j.neo4j.headyj.io
+  name: providerconfigs.neo4j.headyj.io
 spec:
-  group: neo4j.neo4j.headyj.io
+  group: neo4j.headyj.io
   names:
     categories:
     - crossplane

@@ -13,7 +13,7 @@ import (
 
 // Package type metadata.
 const (
-	Group   = "neo4j.neo4j.headyj.io"
+	Group   = "neo4j.headyj.io"
 	Version = "v1alpha1"
 )
 
