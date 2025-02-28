@@ -1,9 +1,8 @@
-apiVersion: roles.neo4j.headyj.io/v1alpha1
+apiVersion: neo4j.headyj.io/v1alpha1
 kind: Role
 metadata:
   name: jni
 spec:
-  forProvider:
-    name: jni
+  forProvider: {}
   providerConfigRef:
     name: default

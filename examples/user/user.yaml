@@ -1,4 +1,4 @@
-apiVersion: users.neo4j.headyj.io/v1alpha1
+apiVersion: neo4j.headyj.io/v1alpha1
 kind: User
 metadata:
   name: jni

@@ -1,4 +1,4 @@
-apiVersion: grants.neo4j.headyj.io/v1alpha1
+apiVersion: neo4j.headyj.io/v1alpha1
 kind: Grant
 metadata:
   name: testgrant
@@ -6,7 +6,8 @@ spec:
   forProvider:
     action: match
     graph: jnitest
-    role: jni
+    roleRef:
+      name: jni
     resource: all_properties
   providerConfigRef:
     name: default
