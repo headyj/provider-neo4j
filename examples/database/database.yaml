@@ -1,0 +1,8 @@
+apiVersion: neo4j.headyj.io/v1alpha1
+kind: Database
+metadata:
+  name: jnitest
+spec:
+  forProvider: {}
+  providerConfigRef:
+    name: default

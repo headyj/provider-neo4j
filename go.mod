@@ -1,4 +1,4 @@
-module github.com/upbound/upjet-provider-template
+module github.com/headyj/provider-neo4j
 
 go 1.21
 
