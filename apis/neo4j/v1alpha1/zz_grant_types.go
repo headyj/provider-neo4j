@@ -14,6 +14,30 @@ import (
 )
 
 type GrantInitParameters struct {
+
+	// The privilege name of the grant. It can be both related to databases or graphs. See available actions below for valid values. Please read the offical documentation for more information.
+	Action *string `json:"action,omitempty" tf:"action,omitempty"`
+
+	// The name of the database or graph associated with the grant. it can be "*" or the specific database or graph name.
+	Graph *string `json:"graph,omitempty" tf:"graph,omitempty"`
+
+	// The resource associated with the grant. Valid values are (depending on the type of action) all_labels, all_properties,graph,database,label(<value>),property(<value>).
+	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
+
+	// The role associated with the grant.
+	// +crossplane:generate:reference:type=github.com/headyj/provider-neo4j/apis/neo4j/v1alpha1.Role
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+
+	// Reference to a Role in neo4j to populate role.
+	// +kubebuilder:validation:Optional
+	RoleRef *v1.Reference `json:"roleRef,omitempty" tf:"-"`
+
+	// Selector for a Role in neo4j to populate role.
+	// +kubebuilder:validation:Optional
+	RoleSelector *v1.Selector `json:"roleSelector,omitempty" tf:"-"`
+
+	// In the case of graph related grant, you can specify the segment of the grant. Valid values are NODE(*), RELATIONSHIP(*), NODE(<value>), RELATIONSHIP(<value>).
+	Segment *string `json:"segment,omitempty" tf:"segment,omitempty"`
 }
 
 type GrantObservation struct {
@@ -39,12 +63,12 @@ type GrantObservation struct {
 type GrantParameters struct {
 
 	// The privilege name of the grant. It can be both related to databases or graphs. See available actions below for valid values. Please read the offical documentation for more information.
-	// +kubebuilder:validation:Required
-	Action *string `json:"action" tf:"action,omitempty"`
+	// +kubebuilder:validation:Optional
+	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
 	// The name of the database or graph associated with the grant. it can be "*" or the specific database or graph name.
-	// +kubebuilder:validation:Required
-	Graph *string `json:"graph" tf:"graph,omitempty"`
+	// +kubebuilder:validation:Optional
+	Graph *string `json:"graph,omitempty" tf:"graph,omitempty"`
 
 	// The resource associated with the grant. Valid values are (depending on the type of action) all_labels, all_properties,graph,database,label(<value>),property(<value>).
 	// +kubebuilder:validation:Optional
@@ -104,8 +128,10 @@ type GrantStatus struct {
 type Grant struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              GrantSpec   `json:"spec"`
-	Status            GrantStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.action) || (has(self.initProvider) && has(self.initProvider.action))",message="spec.forProvider.action is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.graph) || (has(self.initProvider) && has(self.initProvider.graph))",message="spec.forProvider.graph is a required parameter"
+	Spec   GrantSpec   `json:"spec"`
+	Status GrantStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

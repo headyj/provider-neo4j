@@ -36,6 +36,22 @@ func (mg *Grant) ResolveReferences(ctx context.Context, c client.Reader) error {
 	mg.Spec.ForProvider.Role = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.RoleRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Role),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.RoleRef,
+		Selector:     mg.Spec.InitProvider.RoleSelector,
+		To: reference.To{
+			List:    &RoleList{},
+			Managed: &Role{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Role")
+	}
+	mg.Spec.InitProvider.Role = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.RoleRef = rsp.ResolvedReference
+
 	return nil
 }
 
