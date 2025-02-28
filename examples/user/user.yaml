@@ -4,13 +4,12 @@ metadata:
   name: jni
 spec:
   forProvider:
-    name: jni
     passwordSecretRef:
       namespace: crossplane-system
       name: jni-password
       key: password
-    roles:
-      - jni
+    roleRefs:
+      - name: jni
   providerConfigRef:
     name: default
 ---

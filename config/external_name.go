@@ -13,7 +13,7 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"neo4j_database": config.NameAsIdentifier,
 	"neo4j_user":     config.NameAsIdentifier,
 	"neo4j_role":     config.NameAsIdentifier,
-	"neo4j_grant":    config.TemplatedStringAsIdentifier("grant", "{{ .parameters.action }}:{{ .parameters.graph }}:{{ .parameters.role }}:{{ .parameters.resource }}:{{ .parameters.segment }}"),
+	"neo4j_grant":    config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the
