@@ -6,7 +6,7 @@ import "github.com/crossplane/upjet/pkg/config"
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("neo4j_user", func(r *config.Resource) {
 		r.References["roles"] = config.Reference{
-			TerraformName: "neo4j_role",
+			TerraformName:     "neo4j_role",
 			RefFieldName:      "RoleRefs",
 			SelectorFieldName: "RoleRefsSelector",
 		}

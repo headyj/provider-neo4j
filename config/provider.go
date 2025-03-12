@@ -11,9 +11,9 @@ import (
 	ujconfig "github.com/crossplane/upjet/pkg/config"
 
 	"github.com/headyj/provider-neo4j/config/database"
-	"github.com/headyj/provider-neo4j/config/user"
-	"github.com/headyj/provider-neo4j/config/role"
 	"github.com/headyj/provider-neo4j/config/grant"
+	"github.com/headyj/provider-neo4j/config/role"
+	"github.com/headyj/provider-neo4j/config/user"
 )
 
 const (
